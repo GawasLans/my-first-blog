@@ -145,8 +145,13 @@
             <ul class="practicantes-list" id="lista-practicantes-itf">
                 {% for practicante in practicantes_itf %}
                 <li class="practicante-item">
-                    <div class="practicante-card">
-                        <img src="{% if practicante.foto %}{{ practicante.foto.url }}{% else %}{% static 'img/default-photo.png' %}{% endif %}" alt="Foto de {{ practicante.nombre }}" class="practicante-photo">
+                    <div class="practicante-foto-container">
+                        {% if practicante.foto %}
+                        <img src="{{ practicante.foto.url }}" alt="{{ practicante.nombre }}" class="practicante-foto-circular">
+                        {% else %}
+                        <img src="{% static 'img/default-avatar.png' %}" alt="Avatar por defecto" class="practicante-foto-circular">
+                        {% endif %}
+                    </div>
                         <div class="practicante-info">
                             <h4>{{ practicante.nombre }} {{ practicante.apellido }}</h4>
                             <p><strong>Disciplina:</strong> {{ practicante.disciplina.nombre }}</p>

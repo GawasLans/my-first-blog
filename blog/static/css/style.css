@@ -751,3 +751,44 @@ body {
     border-radius: 50%;
     background-color: var(--background-color);
 }
+
+/* Estilos para el contenedor de la tarjeta del practicante (si tienes) */
+.practicante-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow-small);
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex; /* Para centrar contenido si es necesario */
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente el contenido */
+}
+
+/* Contenedor para la foto circular */
+.practicante-foto-container {
+    width: 100px; /* Ancho deseado para la imagen pequeña */
+    height: 100px; /* Altura deseada para la imagen pequeña */
+    border-radius: 50%; /* Hace que el contenedor sea circular */
+    overflow: hidden; /* Recorta la parte de la imagen que sobresale */
+    margin-bottom: 10px; /* Espacio debajo de la imagen */
+    border: 2px solid var(--primary-color); /* Borde alrededor de la foto */
+    display: flex; /* Para centrar la imagen dentro del contenedor */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para la imagen dentro del contenedor */
+.practicante-foto-circular {
+    width: 100%; /* La imagen ocupa el 100% del ancho del contenedor */
+    height: 100%; /* La imagen ocupa el 100% de la altura del contenedor */
+    object-fit: cover; /* Ajusta la imagen para cubrir el área sin distorsionarla y recortando lo necesario */
+    display: block; /* Elimina espacio extra debajo de la imagen */
+}
+
+/* Estilos para el nombre del practicante */
+.practicante-nombre {
+    font-size: 1.2em;
+    color: var(--text-color-dark);
+    margin-bottom: 10px;
+}
