@@ -15,7 +15,7 @@
             <ul class="main-menu">
                 <li><a href="{% url 'index' %}">Inicio</a></li>
                 <li class="has-submenu dropdown">
-                    <a href="#" class="dropdown-toggle">Equipo</a>
+                    <a href="{% url 'equipo' %}" class="dropdown-toggle">Equipo</a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'equipo' %}"><i class="fas fa-users"></i> Ver Equipo</a></li>
                         <li><a href="{% url 'crear_practicante' %}"><i class="fas fa-user-plus"></i> Crear Practicante</a></li>
