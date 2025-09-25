@@ -18,3 +18,45 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Disciplina(models.Model):
+    nombre = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='logos/')
+    descripcion = models.TextField()
+
+    def __str__(self):
+        return self.nombre
+
+class Practicante(models.Model):
+    GENERO_CHOICES = [
+        ('Masculino', 'Masculino'),
+        ('Femenino', 'Femenino'),
+        ('Otro', 'Otro'),
+    ]
+
+    ROL_CHOICES = [
+        ('practicante', 'Practicante'),
+        ('profesor', 'Profesor'),
+    ]
+
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    dni = models.CharField(max_length=20, unique=True)
+    genero = models.CharField(max_length=20, choices=GENERO_CHOICES)
+    fecha_nacimiento = models.DateField()
+    pais = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
+    peso = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    altura = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
+    
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
+    
+    grado = models.CharField(max_length=50, null=True, blank=True)
+    licencia = models.CharField(max_length=50, null=True, blank=True)
+    fecha_caducidad = models.DateField(null=True, blank=True)
+    
+    foto = models.ImageField(upload_to='practicantes/', null=True, blank=True)
+    rol = models.CharField(max_length=20, choices=ROL_CHOICES, default='practicante')
+
+    def __str__(self):
+        return f'{self.nombre} {self.apellido}'

@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestro Equipo - Team Heroes</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body class="light-mode">
     <header class="main-header">
@@ -12,19 +13,19 @@
         <button class="icon-button menu-toggle" id="mobile-menu-toggle">☰</button>
         <nav class="main-nav" id="mobile-menu">
             <ul class="main-menu">
-                <li><a href="index.html">Inicio</a></li>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
                 <li class="has-submenu dropdown">
                     <a href="#" class="dropdown-toggle">Equipo</a>
                     <ul class="dropdown-menu">
-                        <li><a href="equipo.html"><i class="fas fa-users"></i> Ver Equipo</a></li>
-                        <li><a href="equipo.html?action=add"><i class="fas fa-user-plus"></i> Crear Practicante</a></li>
+                        <li><a href="{% url 'equipo' %}"><i class="fas fa-users"></i> Ver Equipo</a></li>
+                        <li><a href="{% url 'crear_practicante' %}"><i class="fas fa-user-plus"></i> Crear Practicante</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
         <div class="header-actions">
             <button id="mode-toggle" class="icon-button">☀️</button>
-            <img src="img/logo-heroes.png" alt="Logo Heroes" class="header-logo">
+            <img src="{% static 'img/logo-heroes.png' %}" alt="Logo Heroes" class="header-logo">
         </div>
     </header>
 
@@ -43,17 +44,13 @@
             <div class="form-header">
                 <h3 id="form-title">Añadir Practicante</h3>
             </div>
-            <form id="practicante-form">
-                <input type="hidden" id="practicante-id">
+            <form id="practicante-form" method="POST" action="{% url 'crear_practicante' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="practicante-id" name="practicante-id">
                 <div class="photo-upload">
-                    <div class="photo-preview-container">
-                        <span class="initials" id="initials-preview"></span>
-                        <img id="photo-preview" class="photo-preview" src="#" alt="Vista previa de la foto">
-                    </div>
                     <label for="foto-input" class="file-upload-label">Subir Foto</label>
-                    <input type="file" id="foto-input" accept="image/*" style="display: none;">
-                    <p class="file-types-info">Archivos .jpg, .png</p>
-                </div>
+                    <input type="file" id="foto-input" name="foto" accept="image/*">
+                </div> 
 
                 <div class="form-grid">
                     <div class="form-group">
@@ -101,8 +98,9 @@
                         <label for="disciplina">Disciplina</label>
                         <select id="disciplina" name="disciplina" required>
                             <option value="">Seleccionar</option>
-                            <option value="itf">Taekwon-Do ITF</option>
-                            <option value="kombat">Kombat Taekwondo</option>
+                            {% for disciplina in disciplinas %}
+                            <option value="{{ disciplina.id }}">{{ disciplina.nombre }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
@@ -129,7 +127,6 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="form-button back-button-form" id="hide-add-form-button">Cancelar</button>
                     <button type="submit" class="form-button save-button" id="save-button">Guardar cambios</button>
                 </div>
             </form>
@@ -138,7 +135,7 @@
         <section class="list-section" id="itf-section">
             <div class="list-header">
                 <h2 class="list-title">
-                    <img src="img/itf-logo.png" alt="Logo ITF" class="discipline-icon">
+                    <img src="{% static 'img/itf-logo.png' %}" alt="Logo ITF" class="discipline-icon">
                     Taekwon-Do ITF
                 </h2>
                 <div class="discipline-buttons-top">
@@ -146,13 +143,32 @@
                 </div>
             </div>
             <ul class="practicantes-list" id="lista-practicantes-itf">
-                </ul>
+                {% for practicante in practicantes_itf %}
+                <li class="practicante-item">
+                    <div class="practicante-card">
+                        <img src="{% if practicante.foto %}{{ practicante.foto.url }}{% else %}{% static 'img/default-photo.png' %}{% endif %}" alt="Foto de {{ practicante.nombre }}" class="practicante-photo">
+                        <div class="practicante-info">
+                            <h4>{{ practicante.nombre }} {{ practicante.apellido }}</h4>
+                            <p><strong>Disciplina:</strong> {{ practicante.disciplina.nombre }}</p>
+                            <p><strong>Grado:</strong> {{ practicante.grado }}</p>
+                        </div>
+                        <div class="practicante-actions">
+    <a href="{% url 'detalle_practicante' practicante.id %}" class="action-button secondary view-details-button">Ver detalles</a>
+    <a href="{% url 'editar_practicante' practicante.id %}" class="action-button primary edit-button">Editar</a>
+    <a href="{% url 'eliminar_practicante' practicante.id %}" class="action-button danger delete-button" onclick="return confirm('¿Estás seguro de que deseas eliminar a este practicante?');">Eliminar</a>
+</div>
+                    </div>
+                </li>
+                {% empty %}
+                <p>No hay practicantes de Taekwon-Do ITF registrados.</p>
+                {% endfor %}
+            </ul>
         </section>
         
         <section class="list-section" id="kombat-section">
             <div class="list-header">
                 <h2 class="list-title">
-                    <img src="img/kombat-logo.png" alt="Logo Kombat" class="discipline-icon">
+                    <img src="{% static 'img/kombat-logo.png' %}" alt="Logo Kombat" class="discipline-icon">
                     Kombat Taekwondo
                 </h2>
                 <div class="discipline-buttons-top">
@@ -160,7 +176,26 @@
                 </div>
             </div>
             <ul class="practicantes-list" id="lista-practicantes-kombat">
-                </ul>
+                {% for practicante in practicantes_kombat %}
+                <li class="practicante-item">
+                    <div class="practicante-card">
+                        <img src="{% if practicante.foto %}{{ practicante.foto.url }}{% else %}{% static 'img/default-photo.png' %}{% endif %}" alt="Foto de {{ practicante.nombre }}" class="practicante-photo">
+                        <div class="practicante-info">
+                            <h4>{{ practicante.nombre }} {{ practicante.apellido }}</h4>
+                            <p><strong>Disciplina:</strong> {{ practicante.disciplina.nombre }}</p>
+                            <p><strong>Grado:</strong> {{ practicante.grado }}</p>
+                        </div>
+                        <div class="practicante-actions">
+    <a href="{% url 'detalle_practicante' practicante.id %}" class="action-button secondary view-details-button">Ver detalles</a>
+    <a href="{% url 'editar_practicante' practicante.id %}" class="action-button primary edit-button">Editar</a>
+    <a href="{% url 'eliminar_practicante' practicante.id %}" class="action-button danger delete-button" onclick="return confirm('¿Estás seguro de que deseas eliminar a este practicante?');">Eliminar</a>
+</div>
+                    </div>
+                </li>
+                {% empty %}
+                <p>No hay practicantes de Kombat Taekwondo registrados.</p>
+                {% endfor %}
+            </ul>
         </section>
 
         <section class="list-section">
@@ -168,11 +203,31 @@
                 <h2 class="list-title">Profesores</h2>
             </div>
             <ul class="practicantes-list" id="lista-profesores">
-                </ul>
+                {% for practicante in profesores %}
+                <li class="practicante-item">
+                    <div class="practicante-card">
+                        <img src="{% if practicante.foto %}{{ practicante.foto.url }}{% else %}{% static 'img/default-photo.png' %}{% endif %}" alt="Foto de {{ practicante.nombre }}" class="practicante-photo">
+                        <div class="practicante-info">
+                            <h4>{{ practicante.nombre }} {{ practicante.apellido }}</h4>
+                            <p><strong>Disciplina:</strong> {{ practicante.disciplina.nombre }}</p>
+                            <p><strong>Grado:</strong> {{ practicante.grado }}</p>
+                        </div>
+                        <div class="practicante-actions">
+    <a href="{% url 'detalle_practicante' practicante.id %}" class="action-button secondary view-details-button">Ver detalles</a>
+    <a href="{% url 'editar_practicante' practicante.id %}" class="action-button primary edit-button">Editar</a>
+    <a href="{% url 'eliminar_practicante' practicante.id %}" class="action-button danger delete-button" onclick="return confirm('¿Estás seguro de que deseas eliminar a este practicante?');">Eliminar</a>
+</div>
+                    </div>
+                </li>
+                {% empty %}
+                <p>No hay profesores registrados.</p>
+                {% endfor %}
+            </ul>
         </section>
+
     </main>
 
-    <script src="app.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
     <script src="https://kit.fontawesome.com/c167814b7e.js" crossorigin="anonymous"></script>
 </body>
 </html>

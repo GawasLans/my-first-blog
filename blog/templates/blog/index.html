@@ -13,19 +13,19 @@
         <button class="icon-button menu-toggle" id="mobile-menu-toggle">☰</button>
         <nav class="main-nav" id="mobile-menu">
             <ul class="main-menu">
-                <li><a href="index.html">Inicio</a></li>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
                 <li class="has-submenu dropdown">
                     <a href="#" class="dropdown-toggle">Equipo</a>
                     <ul class="dropdown-menu">
-                        <li><a href="equipo.html"><i class="fas fa-users"></i> Ver Equipo</a></li>
-                        <li><a href="equipo.html?action=add"><i class="fas fa-user-plus"></i> Crear Practicante</a></li>
+                        <li><a href="{% url 'equipo' %}"><i class="fas fa-users"></i> Ver Equipo</a></li>
+                        <li><a href="{% url 'crear_practicante' %}"><i class="fas fa-user-plus"></i> Crear Practicante</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
         <div class="header-actions">
             <button id="mode-toggle" class="icon-button">☀️</button>
-            <img src="img/logo-heroes.png" alt="Logo Heroes" class="header-logo">
+            <img src="{% static 'img/logo-heroes.png' %}" alt="Logo Heroes" class="header-logo">
         </div>
     </header>
 
@@ -35,11 +35,11 @@
             <div class="discipline-card-container">
                 <div class="card discipline-card">
                     <div class="discipline-icon-container">
-                        <img src="img/itf-logo.png" alt="Logo Taekwondo ITF" class="discipline-card-logo">
-                        <h3 class="discipline-name">Taekwon-D   o ITF</h3>
+                        <img src="{% static 'img/itf-logo.png' %}" alt="Logo Taekwondo ITF" class="discipline-card-logo">
+                        <h3 class="discipline-name">Taekwon-Do ITF</h3>
                     </div>
                     <p>La disciplina original, enfocada en la técnica, la tradición y el desarrollo personal. Formamos practicantes con un fuerte sentido de la ética y la perseverancia.</p>
-                    <a href="equipo.html#itf-list-section" class="stat-button" onclick="scrollToSection('itf-list-section')">
+                    <a href="{% url 'equipo' %}#itf-list-section" class="stat-button" onclick="scrollToSection('itf-list-section')">
                         <i class="fas fa-user-friends"></i>
                         <span id="itf-count">0</span>
                         <span>Practicantes</span>
@@ -48,11 +48,11 @@
 
                 <div class="card discipline-card">
                     <div class="discipline-icon-container">
-                        <img src="img/kombat-logo.png" alt="Logo Kombat Taekwondo" class="discipline-card-logo">
+                        <img src="{% static 'img/kombat-logo.png' %}" alt="Logo Kombat Taekwondo" class="discipline-card-logo">
                         <h3 class="discipline-name">Kombat Taekwondo</h3>
                     </div>
                     <p>Una vertiente moderna y dinámica, que combina el Taekwondo tradicional con técnicas de defensa personal y acondicionamiento físico. Ideal para el combate y el fitness.</p>
-                    <a href="equipo.html#kombat-list-section" class="stat-button" onclick="scrollToSection('kombat-list-section')">
+                    <a href="{% url 'equipo' %}#kombat-list-section" class="stat-button" onclick="scrollToSection('kombat-list-section')">
                         <i class="fas fa-user-friends"></i>
                         <span id="kombat-count">0</span>
                         <span>Practicantes</span>
@@ -62,7 +62,7 @@
         </section>
     </main>
 
-    <script src="app.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
     <script src="https://kit.fontawesome.com/c167814b7e.js" crossorigin="anonymous"></script>
     
 </body>
