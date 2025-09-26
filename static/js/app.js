@@ -93,5 +93,37 @@ function initEquipoPage() {
     }
 
     // Lógica para los select de Grado según la Disciplina
-    
+    const disciplinaSelect = document.getElementById('disciplina');
+    const gradoSelect = document.getElementById('grado');
+
+    const gradosITF = [
+        "Cinturon blanco", "Cinturon blanco punta amarilla", "Cinturon amarillo", 
+        "Cinturon amarillo punta verde", "Cinturon verde", "Cinturon verde punta azul", 
+        "Cinturon azul", "Cinturon azul punta roja", "Cinturon roja", 
+        "Cinturon roja punta negra", "Cinturon Negro 1st Dan", "2nd Dan", 
+        "3rd Dan", "4th Dan", "5th Dan", "6th Dan", "7th Dan", "8th Dan", 
+        "9th Dan", "10th Dan"
+    ];
+
+    const gradosKombat = [
+        "Level 1", "Level 2", "Level 3", "Level 4", "Level 5", 
+        "1st Dan", "2nd Dan", "3rd Dan", "4th Dan", "5th Dan", 
+        "6th Dan", "7th Dan", "8th Dan", "9th Dan", "10th Dan"
+    ];
+
+    if (disciplinaSelect && gradoSelect) {
+        disciplinaSelect.addEventListener('change', (event) => {
+            const selectedDisciplineId = event.target.value;
+            gradoSelect.disabled = !selectedDisciplineId;
+            gradoSelect.innerHTML = '<option value="">Seleccionar grado</option>';
+            // ID de disciplina 1 es ITF, cualquier otro es Kombat
+            const grados = selectedDisciplineId === '1' ? gradosITF : gradosKombat;
+            grados.forEach(grado => {
+                const option = document.createElement('option');
+                option.value = grado;
+                option.textContent = grado;
+                gradoSelect.appendChild(option);
+            });
+        });
+    }
 }

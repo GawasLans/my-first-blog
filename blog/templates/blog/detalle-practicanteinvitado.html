@@ -13,14 +13,10 @@
         <button class="icon-button menu-toggle" id="mobile-menu-toggle">☰</button>
         <nav class="main-nav" id="mobile-menu">
             <ul class="main-menu">
-                <li><a href="{% url 'index_maestro' %}">Inicio</a></li>
-                <li class="has-submenu dropdown">
-                    <a href="equipo_maestro" class="dropdown-toggle">Equipo</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'equipo_maestro' %}"><i class="fas fa-users"></i> Ver Equipo</a></li>
-                        <li><a href="{% url 'crear_practicante' %}"><i class="fas fa-user-plus"></i> Crear Practicante</a></li>
-                    </ul>
-                </li>
+                <!-- Se cambia la URL de inicio al modo invitado -->
+                <li><a href="{% url 'inicio_invitado' %}">Inicio</a></li>
+                <!-- Se cambia el enlace de Equipo al modo invitado -->
+                <li><a href="{% url 'equipo_invitado' %}"><i class="fas fa-users"></i> Ver Equipo</a></li>
             </ul>
         </nav>
         <div class="header-actions">
@@ -62,8 +58,9 @@
             </div>
             
             <div class="form-actions">
-                <a href="{% url 'equipo_maestro' %}" class="form-button back-button-form">Volver</a>
-                <a href="{% url 'editar_practicante' practicante.id %}" class="action-button primary edit-button">Editar</a>
+                <!-- Único botón: Volver al listado de invitados -->
+                <a href="{% url 'equipo_invitado' %}" class="form-button back-button-form">Volver al equipo</a>
+                <!-- 🚨 Se ha eliminado el botón 'Editar' -->
             </div>
         </section>
     </main>

@@ -4,20 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if practicante %}Editar{% else %}Añadir{% endif %} Practicante - Team Heroes</title>
+    <title>{% if practicante %}Editar{% else %}Añadir{% endif %} Practicante - TEAM HEROES</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body class="light-mode">
     <header class="main-header">
-        <h1 class="main-title">Team Heroes</h1>
+        <h1 class="main-title">Team Héroes</h1>
         <button class="icon-button menu-toggle" id="mobile-menu-toggle">☰</button>
         <nav class="main-nav" id="mobile-menu">
             <ul class="main-menu">
-                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'index_maestro' %}">Inicio</a></li>
                 <li class="has-submenu dropdown">
-                    <a href="#" class="dropdown-toggle">Equipo</a>
+                    <a href="equipo_maestro" class="dropdown-toggle">Equipo</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'equipo' %}"><i class="fas fa-users"></i> Ver Equipo</a></li>
+                        <li><a href="{% url 'equipo_maestro' %}"><i class="fas fa-users"></i> Ver Equipo</a></li>
                         <li><a href="{% url 'crear_practicante' %}"><i class="fas fa-user-plus"></i> Crear Practicante</a></li>
                     </ul>
                 </li>
@@ -94,9 +94,38 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="grado">Grado</label>
-                        <input type="text" id="grado" name="grado" value="{{ practicante.grado|default:'' }}" required>
-                    </div>
+    <label for="grado">Grado</label>
+    <select id="grado" name="grado" required>
+        {% if practicante.grado %}
+        <option value="{{ practicante.grado }}" selected>{{ practicante.grado }}</option>
+        {% else %}
+        <option value="">Seleccionar grado</option>
+        {% endif %}
+    </select>
+</div>
+                <div class="form-grid">
+    <div class="form-group">
+        <label for="dias-entrenamiento">Días de Entrenamiento</label>
+        <select id="dias-entrenamiento" name="dias-entrenamiento" class="form-control">
+            <option value="">Seleccionar días</option>
+            {% for value, label in dias_choices %}
+                <option value="{{ value }}" {% if practicante.dias_entrenamiento == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="hora-entrenamiento">Hora de Entrenamiento</label>
+        <select id="hora-entrenamiento" name="hora-entrenamiento" class="form-control">
+            <option value="">Seleccionar hora</option>
+            {% for value, label in hora_choices %}
+                <option value="{{ value }}" {% if practicante.hora_entrenamiento == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    </div>
+
                     <div class="form-group">
                         <label for="licencia">N° Licencia</label>
                         <input type="text" id="licencia" name="licencia" value="{{ practicante.licencia|default:'' }}">
@@ -115,13 +144,65 @@
                 </div>
 
                 <div class="form-actions">
-                    <a href="{% url 'equipo' %}" class="form-button secondary">Cancelar</a>
+                    <a href="{% url 'equipo_maestro' %}" class="form-button secondary">Cancelar</a>
                     <button type="submit" class="form-button save-button">Guardar cambios</button>
                 </div>
             </form>
         </section>
     </main>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const disciplinaSelect = document.getElementById('disciplina');
+    const gradoSelect = document.getElementById('grado');
+    
+    const gradosITF = [
+        "Cinturon blanco", "Cinturon blanco punta amarilla", "Cinturon amarillo", 
+        "Cinturon amarillo punta verde", "Cinturon verde", "Cinturon verde punta azul", 
+        "Cinturon azul", "Cinturon azul punta roja", "Cinturon roja", 
+        "Cinturon roja punta negra", "Cinturon Negro 1st Dan", "2nd Dan", 
+        "3rd Dan", "4th Dan", "5th Dan", "6th Dan", "7th Dan", "8th Dan", 
+        "9th Dan", "10th Dan"
+    ];
 
+    const gradosKombat = [
+        "Level 1", "Level 2", "Level 3", "Level 4", "Level 5", 
+        "1st Dan", "2nd Dan", "3rd Dan", "4th Dan", "5th Dan", 
+        "6th Dan", "7th Dan", "8th Dan", "9th Dan", "10th Dan"
+    ];
+    
+    const itfId = "{{ itf_id }}";
+    const kombatId = "{{ kombat_id }}";
+
+    const updateGradoOptions = () => {
+        const selectedDisciplineId = disciplinaSelect.value;
+        gradoSelect.innerHTML = '<option value="">Seleccionar grado</option>';
+        
+        let grados = [];
+        if (selectedDisciplineId === itfId) {
+            grados = gradosITF;
+        } else if (selectedDisciplineId === kombatId) {
+            grados = gradosKombat;
+        }
+
+        grados.forEach(grado => {
+            const option = document.createElement('option');
+            option.value = grado;
+            option.textContent = grado;
+            if ("{{ practicante.grado }}" === grado) {
+                option.selected = true;
+            }
+            gradoSelect.appendChild(option);
+        });
+    };
+
+    disciplinaSelect.addEventListener('change', updateGradoOptions);
+    
+    // Llama a la función al cargar la página si ya hay una disciplina seleccionada
+    if (disciplinaSelect.value) {
+        updateGradoOptions();
+    }
+});
+</script>
     <script src="{% static 'js/app.js' %}"></script>
     <script src="https://kit.fontawesome.com/c167814b7e.js" crossorigin="anonymous"></script>
 </body>

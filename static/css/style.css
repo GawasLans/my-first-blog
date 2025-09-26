@@ -443,8 +443,8 @@ body {
     border-radius: 12px;
     margin-bottom: 12px;
     display: flex;
-    align-items: center; /* Centra verticalmente los elementos */
-    gap: 20px; /* Añade un espacio entre la foto y la info */
+    justify-content: space-between;
+    align-items: center;
     box-shadow: 0 2px 8px var(--shadow-color);
     transition: transform 0.2s ease;
 }
@@ -456,7 +456,7 @@ body {
 .practicante-info-link {
     display: flex;
     align-items: center;
-    flex-grow: 1; /* Esto hace que el enlace ocupe el espacio restante */
+    flex-grow: 1;
     text-decoration: none;
     color: var(--text-color);
     gap: 15px;
@@ -484,14 +484,11 @@ body {
     margin: 4px 0 0;
     font-size: 0.9rem;
     color: var(--light-text-color);
-    white-space: nowrap; /* Evita que el texto de los detalles se rompa en varias líneas */
 }
 
 .practicante-actions {
     display: flex;
     gap: 10px;
-    /* Para que los botones se queden a la derecha */
-    margin-left: auto;
 }
 
 .practicante-actions .action-button {
@@ -794,19 +791,4 @@ body {
     font-size: 1.2em;
     color: var(--text-color-dark);
     margin-bottom: 10px;
-}
-
-/* Nuevo estilo para el avatar de iniciales */
-.practicante-avatar {
-    width: 80px; /* Ajusta el tamaño para que coincida con .practicante-foto-circular */
-    height: 80px;
-    background-color: #6c757d; /* Color de fondo, puedes cambiarlo */
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 2em; /* Tamaño de las iniciales */
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
